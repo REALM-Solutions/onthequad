@@ -6,5 +6,5 @@ class User:
         self.email = email
         self.username = username
         self.photoURL = photoURL
-        self.evetns = events
+        self.events = events
         

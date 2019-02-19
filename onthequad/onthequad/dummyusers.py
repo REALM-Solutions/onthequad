@@ -9,12 +9,12 @@ class DumUsers:
 
         sendback = {
             "id": 12345,
-                "firstname": "John",
-                "lastname": "Smith",
-                "email": "jsmith@msudenver.edu",
-                "username": "jsmith",
-                "photoURL": "",
-                "events": []
+            "firstname": "John",
+            "lastname": "Smith",
+            "email": "jsmith@msudenver.edu",
+            "username": "jsmith",
+            "photoURL": "",
+            "events": []
         }
 
         resp.body = json.dumps(sendback)
