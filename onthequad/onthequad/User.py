@@ -8,3 +8,4 @@ class User:
         self.photoURL = photoURL
         self.events = events
         
+        

@@ -17,7 +17,7 @@ firebase = pyrebase.initialize_app(config)
 authe = firebase.auth()
 database = firebase.database()
 
-api = application = falcon.API
+api = application = falcon.API()
 
 api.add_route('/events', Event())
 
