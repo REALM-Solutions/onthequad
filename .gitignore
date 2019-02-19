@@ -5,3 +5,10 @@
 .idea/onthequad.iml
 .idea/vcs.xml
 .idea/workspace.xml
+onthequad/onthequad/__pycache__/app.cpython-37.pyc
+onthequad/__pycache__/__init__.cpython-37.pyc
+onthequad/onthequad/__pycache__/__init__.cpython-37.pyc
+onthequad/onthequad/__pycache__/dummyevents.cpython-37.pyc
+onthequad/onthequad/__pycache__/events.cpython-37.pyc
+onthequad/tests/__pycache__/__init__.cpython-37.pyc
+onthequad/tests/__pycache__/test_dummyevents.cpython-37-PYTEST.pyc
