@@ -5,8 +5,7 @@ import json
 class DumbEvents:
 
     def on_get(self, req, resp):
-        data = json.loads(req.stream.read())
-
+        # data = json.loads(req.stream.read())
         sendback = {
             "id": 987654,
             "name": "Volleyball",
@@ -31,6 +30,7 @@ class DumbEvents:
         }
 
         resp.body = json.dumps(sendback)
+        resp.status = falcon.HTTP_200
 
     def on_post(self, req, resp):
         data = json.loads(req.stream.read())
