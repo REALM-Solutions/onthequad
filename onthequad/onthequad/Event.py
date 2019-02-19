@@ -1,8 +1,8 @@
-
+import uuid
 class Events:
-    def __init__(self, id, name, location, date, starttime, endtime, category, creator, attendees, availablespots,
+    def __init__(self, name, location, date, starttime, endtime, category, creator, attendees, availablespots,
                  coordinates, public):
-        self.id = id
+        self.id = uuid.uuid1()
         self.name = name
         self.location = location
         self.date = date
