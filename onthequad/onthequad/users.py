@@ -6,7 +6,7 @@ class User:
     def on_get(self, req, resp):
         print("To remove errors")
 
-    def on_post(self, req, resp):
+    """def on_post(self, req, resp):
         print("Removing all them red lines")
 
         data = json.loads(req.stream.read())
@@ -25,4 +25,5 @@ class User:
         else {
             resp.status = falcon.HTTP_401
         }
+        """
 
