@@ -9,7 +9,6 @@ class DataBaseCalls:
 
     def getAllEvents():
         allEvents = database.child("Event").get()
-        print(allEvents.val())
         return allEvents
 
     def updateEvent(eventID, updatedEvent):
