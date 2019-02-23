@@ -1,35 +1,13 @@
 import falcon
 import json
-
+from .EventDB import DataBaseCalls
 
 class DumbEvents:
 
     def on_get(self, req, resp):
         # data = json.loads(req.stream.read())
-        sendback = {
-            "id": 987654,
-            "name": "Volleyball",
-            "location": "Volleyball court",
-            "date": "02/14/2019",
-            "starttime": 1315,
-            "endtime": 1430,
-            "category": "Sports and Games",
-            "creator": {
-                "id": 12345,
-                "firstname": "John",
-                "lastname": "Smith",
-                "email": "jsmith@msudenver.edu",
-                "username": "jsmith",
-                "photoURL": "",
-                "events": []
-            },
-            "attendees": [],
-            "availablespots": 10,
-            "coordinates": "",
-            "public": True
-        }
-
-        resp.body = json.dumps(sendback)
+        send = DataBaseCalls.getAllEvents()
+        resp.body = json.dumps(send)
         resp.status = falcon.HTTP_200
 
     def on_post(self, req, resp):
