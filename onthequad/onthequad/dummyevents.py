@@ -36,15 +36,16 @@ class DumbEvents:
     def on_put(self, req, resp):
         data = json.loads(req.stream.read())
 
-        if data['method'] is None:
-            sendback = {
-                'msg': "there is nothing to update"
-            }
-            resp.body = json.dumps(sendback)
-            resp.status = falcon.HTTP_400
-        else:
-            sendback = {
-                'msg': "Stuff will be updated"
-            }
-            resp.body = json.dumps(sendback)
-            resp.status = falcon.HTTP_200
+        send = DataBaseCalls.updateEvent("-LZOf2FzoAad8_GPG5x7", data)
+        # if data['method'] is None:
+        #     sendback = {
+        #         'msg': "there is nothing to update"
+        #     }
+        #     resp.body = json.dumps(sendback)
+        #     resp.status = falcon.HTTP_400
+        # else:
+        #     sendback = {
+        #         'msg': "Stuff will be updated"
+        #     }
+        resp.body = json.dumps(send)
+        resp.status = falcon.HTTP_200
