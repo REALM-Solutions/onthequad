@@ -29,4 +29,3 @@ class DataBaseCalls:
 
     def deleteEvent(eventID):
         database.child("Event").child(eventID).remove()
-
