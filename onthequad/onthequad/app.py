@@ -1,9 +1,9 @@
 import pyrebase
 import falcon
-from .events import Event
-from .dummyevents import DumbEvents
-from .users import User
-from .dummyusers import DumUsers
+from events import Event
+from dummyevents import DumbEvents
+from users import User
+from dummyusers import DumUsers
 
 config = {
 'apiKey': "AIzaSyBEaQNRbDl0qmfTBORJ-4gbMdiBaSm3Q_o",
