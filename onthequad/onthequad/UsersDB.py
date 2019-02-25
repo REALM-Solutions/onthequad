@@ -18,8 +18,8 @@ class UserDataBase:
         database.child("Users").push(jsonObj)
 
     def getUser(userId):
-        allEvents = database.child("Users").child(userId).get()
-        return allEvents.val()
+        user = database.child("Users").child(userId).get()
+        return user.val()
 
     def postUser(userId, updateUser):
         database.child("Users").child(userId).update(updateUser)
