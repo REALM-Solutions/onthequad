@@ -1,6 +1,7 @@
 import falcon
 import json
-from .EventDB import DataBaseCalls
+from .DataBaseCalls import DataBaseCalls
+
 
 class DumbEvents:
 
@@ -12,6 +13,7 @@ class DumbEvents:
 
     def on_post(self, req, resp):
         data = json.loads(req.stream.read())
+        # this logic can be removed since front end will input validation
         if any(data):
             send = {
                 'Message' : 'Event has been created'
@@ -53,7 +55,6 @@ class DumbEvents:
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_404
         else:
-            # del data[eventID]
             DataBaseCalls.updateEvent(eventID, data[eventID])
             send = {
                 'Message' : 'Event has been updated'
