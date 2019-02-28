@@ -14,17 +14,21 @@ database = firebase.database()
 
 class UserDataBase:
 
-    def pushUser(jsonObj):
-        database.child("Users").push(jsonObj)
+    def addUser(self, aUser):
+        database.child("Users").push(aUser)
 
-    def getUser(userId):
+    def getUser(self, userId):
         user = database.child("Users").child(userId).get()
         return user.val()
 
-    def postUser(userId, updateUser):
+    def getUsers(self):
+        user = database.child("Users").get()
+        return user.val()
+
+    def updateUser(self, userId, updateUser):
         database.child("Users").child(userId).update(updateUser)
 
-    def deleteUser(userId):
+    def deleteUser(self, userId):
         database.child("Users").child(userId).remove()
 
     
