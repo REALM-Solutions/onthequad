@@ -20,13 +20,13 @@ class DumbEvents:
             }
             DataBaseCalls.storeEvent(data)
             resp.body = json.dumps(send)
-            resp.status = falcon.HTTP_200
+            resp.status = falcon.HTTP_201
         else:
             send = {
                 'Message' : 'Cannot create empty event'
             }
             resp.body = json.dumps(send)
-            resp.status = falcon.HTTP_404
+            resp.status = falcon.HTTP_400
 
     def on_delete(self, req, resp):
         data = json.loads(req.stream.read())
@@ -36,7 +36,7 @@ class DumbEvents:
                 'Message' : 'Event cannot be found'
             }
             resp.body = json.dumps(send)
-            resp.status = falcon.HTTP_404
+            resp.status = falcon.HTTP_400
         else:
             send = {
                 'Message' : "Event has been deleted"
@@ -53,7 +53,7 @@ class DumbEvents:
                 'Message' : 'ID for event cannot be found'
             }
             resp.body = json.dumps(send)
-            resp.status = falcon.HTTP_404
+            resp.status = falcon.HTTP_400
         else:
             DataBaseCalls.updateEvent(eventID, data[eventID])
             send = {
