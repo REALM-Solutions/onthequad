@@ -1,72 +1,63 @@
 import falcon
 import json
+from .DataBaseCalls import DataBaseCalls
 
 
 class DumbEvents:
 
     def on_get(self, req, resp):
         # data = json.loads(req.stream.read())
-        sendback = {
-            "id": 987654,
-            "name": "Volleyball",
-            "location": "Volleyball court",
-            "date": "02/14/2019",
-            "starttime": 1315,
-            "endtime": 1430,
-            "category": "Sports and Games",
-            "creator": {
-                "id": 12345,
-                "firstname": "John",
-                "lastname": "Smith",
-                "email": "jsmith@msudenver.edu",
-                "username": "jsmith",
-                "photoURL": "",
-                "events": []
-            },
-            "attendees": [],
-            "availablespots": 10,
-            "coordinates": "",
-            "public": True
-        }
-
-        resp.body = json.dumps(sendback)
+        send = DataBaseCalls.getAllEvents()
+        resp.body = json.dumps(send)
         resp.status = falcon.HTTP_200
 
     def on_post(self, req, resp):
         data = json.loads(req.stream.read())
-        if data['method'] == 'OK':
-            resp.status = falcon.HTTP_200
+        # this logic can be removed since front end will input validation
+        if any(data):
+            send = {
+                'Message' : 'Event has been created'
+            }
+            DataBaseCalls.storeEvent(data)
+            resp.body = json.dumps(send)
+            resp.status = falcon.HTTP_201
         else:
-            resp.status = falcon.HTTP_404
+            send = {
+                'Message' : 'Cannot create empty event'
+            }
+            resp.body = json.dumps(send)
+            resp.status = falcon.HTTP_400
 
     def on_delete(self, req, resp):
         data = json.loads(req.stream.read())
-
-        if data['method'] is None:
-            sendback = {
-                'msg': "there is nothing to delete"
+        eventID = next(iter(data))
+        if eventID is None:
+            send = {
+                'Message' : 'Event cannot be found'
             }
-            resp.body = json.dumps(sendback)
+            resp.body = json.dumps(send)
             resp.status = falcon.HTTP_400
         else:
-            sendback = {
-                'msg': "stuff will be delted"
+            send = {
+                'Message' : "Event has been deleted"
             }
-            resp.body = json.dumps(sendback)
+            DataBaseCalls.deleteEvent(eventID)
+            resp.body = json.dumps(send)
             resp.status = falcon.HTTP_200
 
     def on_put(self, req, resp):
         data = json.loads(req.stream.read())
-
-        if data['method'] is None:
-            sendback = {
-                'msg': "there is nothing to update"
+        eventID = next(iter(data))
+        if eventID is None:
+            send = {
+                'Message' : 'ID for event cannot be found'
             }
-            resp.body = json.dumps(sendback)
+            resp.body = json.dumps(send)
             resp.status = falcon.HTTP_400
         else:
-            sendback = {
-                'msg': "Stuff will be updated"
+            DataBaseCalls.updateEvent(eventID, data[eventID])
+            send = {
+                'Message' : 'Event has been updated'
             }
-            resp.body = json.dumps(sendback)
+            resp.body = json.dumps(send)
             resp.status = falcon.HTTP_200
