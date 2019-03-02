@@ -3,7 +3,7 @@ import json
 from .DataBaseCalls import DataBaseCalls
 
 
-class DumbEvents:
+class EventEndPoints:
 
     def on_get(self, req, resp):
         # data = json.loads(req.stream.read())
