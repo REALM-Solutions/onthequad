@@ -8,14 +8,14 @@ class DataBaseCalls:
 
 
     def storeEvent(jsonObj):
-        database.child("Event").push(jsonObj)
+        database.child("Events").push(jsonObj)
 
     def getAllEvents():
-        allEvents = database.child("Event").get()
+        allEvents = database.child("Events").get()
         return allEvents.val()
 
     def updateEvent(eventID, updatedEvent):
-        database.child("Event").child(eventID).update(updatedEvent)
+        database.child("Events").child(eventID).update(updatedEvent)
 
     def deleteEvent(eventID):
-        database.child("Event").child(eventID).remove()
+        database.child("Events").child(eventID).remove()
