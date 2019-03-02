@@ -35,7 +35,7 @@ def client():
     return testing.TestClient(api)
 
 
-@patch('onthequad.onthequad.dummyevents.DataBaseCalls.getAllEvents', return_value=doc)
+# @patch('onthequad.onthequad.dummyevents.DataBaseCalls.getAllEvents', return_value=doc)
 # @patch.object(DataBaseCalls, 'getAllEvents', return_value="Butts")
 def test_eventOnGet(mockGet, client):
 
