@@ -1,25 +1,86 @@
-import json, falcon
-from .UsersDB import UserDataBase
+import falcon
+import json
+from .UsersDB import UsersDB
+from .DataBaseSetUp import DataBaseSetUp
+authen = DataBaseSetUp.authentication()
 
 class UserEndPoints:
 
-    def createUser(self, req, resp):
-
-        data = json.loads(req.stream.read())
+    def on_get(self, req, resp):
         
-        fname = data["body"].firstName
-        lname = data["body"].lastName
-        email = data["body"].email
-        arrayEmail = email.split("@")
-        userName = arrayEmail[0] 
-        events = []
-        aUser = {
-            "firstName": fname
-            "lastName": lname 
-            "email": email
-            "user":userName 
-            "evetns": events = []
-        }
+        send = UsersDB.getAllUsers()
+        resp.body = json.dumps(send)
+        resp.status = falcon.HTTP_200
+
+    def on_post(self, req, resp):
+        data = json.loads(req.stream.read())
+    
+        if any(data):
+
+            firstName = data['firstName']
+            lastName = data['lastName']
+            email = data['email']
+            password = data['password']
+
+            user = authen.create_user_with_email_and_password(email, password)
+            uid = user['localId']
+
+            userDetail = {
+                "firstName": firstName,
+                "lastName": lastName, 
+                "email": email, 
+                "uId": uid
+            }
+
+            send = {
+                'message' : 'Account is successfully created'
+            }
+
+            UsersDB.createUser(userDetail)
+            resp.body = json.dumps(send)
+            resp.status = falcon.HTTP_201
+        else:
+            send = {
+                'message' : 'Missing information. Try again'
+            }
+            resp.body = json.dumps(send)
+            resp.status = falcon.HTTP_400
+
+    def on_delete(self, req, resp):
+        data = json.loads(req.stream.read())
+        userId = next(iter(data))
+        if userId is None:
+            send = {
+                'message' : 'User cannot be found'
+            }
+            resp.body = json.dumps(send)
+            resp.status = falcon.HTTP_400
+        else:
+            send = {
+                'message' : "User is successfully deleted"
+            }
+            UsersDB.deleteUser(userId)
+            resp.body = json.dumps(send)
+            resp.status = falcon.HTTP_200
+
+    def on_put(self, req, resp):
+        data = json.loads(req.stream.read())
+        userId = next(iter(data))
+        if userId is None:
+            send = {
+                'message' : 'Error. User not found'
+            }
+            resp.body = json.dumps(send)
+            resp.status = falcon.HTTP_400
+        else:
+            UsersDB.updateUser(userId, data[userId])
+            send = {
+                'message' : 'User is successfully updated'
+            }
+            resp.body = json.dumps(send)
+            resp.status = falcon.HTTP_200
+
+            
         
 
     
