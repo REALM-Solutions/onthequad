@@ -17,3 +17,4 @@ class UsersDB:
 
     def deleteUser(userId):
         database.child("Users").child(userId).remove()
+        
