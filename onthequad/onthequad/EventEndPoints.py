@@ -1,13 +1,13 @@
 import falcon
 import json
-from .DataBaseCalls import DataBaseCalls
+from .EventDataBase import EventDatabase
 
 
 class EventEndPoints:
 
     def on_get(self, req, resp):
         # data = json.loads(req.stream.read())
-        send = DataBaseCalls.getAllEvents()
+        send = EventDatabase.getAllEvents()
         resp.body = json.dumps(send)
         resp.status = falcon.HTTP_200
 
@@ -18,7 +18,7 @@ class EventEndPoints:
             send = {
                 'Message' : 'Event has been created'
             }
-            DataBaseCalls.storeEvent(data)
+            EventDatabase.storeEvent(data)
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_201
         else:
@@ -41,7 +41,7 @@ class EventEndPoints:
             send = {
                 'Message' : "Event has been deleted"
             }
-            DataBaseCalls.deleteEvent(eventID)
+            EventDatabase.deleteEvent(eventID)
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_200
 
@@ -55,7 +55,7 @@ class EventEndPoints:
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_400
         else:
-            DataBaseCalls.updateEvent(eventID, data[eventID])
+            EventDatabase.updateEvent(eventID, data[eventID])
             send = {
                 'Message' : 'Event has been updated'
             }

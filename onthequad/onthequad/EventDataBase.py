@@ -4,7 +4,7 @@ from .DataBaseSetUp import DataBaseSetUp
 database = DataBaseSetUp.setup()
 
 
-class DataBaseCalls:
+class EventDatabase:
 
 
     def storeEvent(jsonObj):
