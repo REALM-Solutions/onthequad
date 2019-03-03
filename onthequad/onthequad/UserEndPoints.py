@@ -26,10 +26,12 @@ class UserEndPoints:
             uid = user['localId']
 
             userDetail = {
+                "uId": uid,
                 "firstName": firstName,
                 "lastName": lastName, 
                 "email": email, 
-                "uId": uid
+                "photoURL": "",
+                "events": []  
             }
 
             send = {
