@@ -17,28 +17,14 @@ class UserEndPoints:
     
         if any(data):
 
-            firstName = data['firstName']
-            lastName = data['lastName']
-            email = data['email']
-            password = data['password']
-
-            user = authen.create_user_with_email_and_password(email, password)
-            uid = user['localId']
-
-            userDetail = {
-                "uId": uid,
-                "firstName": firstName,
-                "lastName": lastName, 
-                "email": email, 
-                "photoURL": "",
-                "events": []  
-            }
+            user = authen.create_user_with_email_and_password(data['email'], data['password'])
+            del data['password']
 
             send = {
                 'message' : 'Account is successfully created'
             }
 
-            UsersDB.createUser(userDetail)
+            UsersDB.createUser(data)
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_201
         else:
