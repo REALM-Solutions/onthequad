@@ -5,8 +5,8 @@ database = DataBaseSetUp.setup()
 
 class UsersDB:
 
-    def createUser(data):
-        database.child("Users").push(data)
+    def createUser(data, uId):
+        database.child("Users").child(uId).set(data)
 
     def getAllUsers():
         allUsers = database.child("Users").get()

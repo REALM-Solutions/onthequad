@@ -18,13 +18,17 @@ class UserEndPoints:
         if any(data):
 
             user = authen.create_user_with_email_and_password(data['email'], data['password'])
+            uId = user['localId']
             del data['password']
-
+            emailArray = data['email'].split("@")
+            userName = emailArray[0]
+            data['userId'] = uId
+            data['userName'] = userName
             send = {
                 'message' : 'Account is successfully created'
             }
 
-            UsersDB.createUser(data)
+            UsersDB.createUser(data, uId)
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_201
         else:

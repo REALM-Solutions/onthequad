@@ -9,10 +9,10 @@ class DumUsers:
 
         sendback = {
             "id": 12345,
-            "firstname": "John",
-            "lastname": "Smith",
+            "firstName": "John",
+            "lastName": "Smith",
             "email": "jsmith@msudenver.edu",
-            "username": "jsmith",
+            "userName": "jsmith",
             "photoURL": "",
             "events": []
         }
