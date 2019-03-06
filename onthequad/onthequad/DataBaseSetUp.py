@@ -25,3 +25,4 @@ class DataBaseSetUp:
         firebase = DataBaseSetUp.config()
         authen = firebase.auth()
         return authen
+        
