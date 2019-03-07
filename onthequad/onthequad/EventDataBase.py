@@ -8,14 +8,16 @@ class EventDatabase:
 
 
     def storeEvent(jsonObj):
-        database.child("Events").push(jsonObj)
+        eid = database.child("Events").push(jsonObj)
+        return eid['name']
 
     def getAllEvents():
         allEvents = database.child("Events").get()
         return allEvents.val()
 
     def updateEvent(eventID, updatedEvent):
-        database.child("Events").child(eventID).update(updatedEvent)
+        updated = database.child("Events").child(eventID).update(updatedEvent)
+        return updated
 
     def deleteEvent(eventID):
         database.child("Events").child(eventID).remove()
