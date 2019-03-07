@@ -53,10 +53,10 @@ objUpdated = {
 objId = "123456"
 
 
-# @patch('onthequad.onthequad.EventDataBase.database.get', return_value=1)
-# def test_getAllEvents(mockDb):
-#     result = EventDatabase.getAllEvents()
-#     assert result == 1
+@patch('onthequad.onthequad.EventDataBase.database.get')
+def test_getAllEvents(mockGet):
+    EventDatabase.getAllEvents()
+    mockGet().assert_called
 
 
 @patch('onthequad.onthequad.EventDataBase.database.push', return_value={"name":"123456"})
@@ -71,9 +71,9 @@ def test_deleteEvent(mockDelete):
     assert mockDelete() == result
 
 
-@patch('onthequad.onthequad.EventDataBase.database.update', return_value=objUpdated)
+@patch('onthequad.onthequad.EventDataBase.database.update')
 def test_updateEvent(mockUpdate):
-    result = EventDatabase.updateEvent(objId, obj)
-    assert mockUpdate() == result
+    EventDatabase.updateEvent(objId, obj)
+    mockUpdate().assert_called
 
 
