@@ -11,7 +11,8 @@ class EventEndPoints:
         #
         # print(req.params)
         send = EventDatabase.getAllEvents()
-        resp.body = json.dumps(send)
+        sendList = list(send.items())
+        resp.body = json.dumps(sendList)
         resp.status = falcon.HTTP_200
 
 
@@ -68,3 +69,5 @@ class EventEndPoints:
             }
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_400
+
+
