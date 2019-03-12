@@ -7,12 +7,27 @@ class EventEndPoints:
 
 
     def on_get(self, req, resp):
-        # data = json.loads(req.stream.read())
-        #
-        # print(req.params)
-        send = EventDatabase.getAllEvents()
+        data = json.loads(req.stream.read())
+        params = req.params
+        # print(params)
+        if 'id' in params:
+            send = {
+                params['id']:
+                EventDatabase.getEventById(params['id'])
+            }
+            # resp.body = json.dumps(send)
+        elif 'name' in params:
+            send = EventDatabase.getEventByName(params['name'])
+        elif 'category' in params:
+            send = EventDatabase.getEventByCategory(params['category'])
+        elif 'creator' in params:
+            send = EventDatabase.getEventByCreator(params['creator'])
+        else:
+            send = EventDatabase.getTest()
+            resp.body = json.dumps(send)
+        #     send = EventDatabase.getAllEvents()
         resp.body = json.dumps(send)
-        resp.status = falcon.HTTP_200
+        # resp.status = falcon.HTTP_200
 
 
     def on_post(self, req, resp):

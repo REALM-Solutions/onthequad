@@ -25,4 +25,7 @@ class DataBaseSetUp:
         firebase = DataBaseSetUp.config()
         authen = firebase.auth()
         return authen
-        
+
+    def noquote(s):
+        return s
+    pyrebase.pyrebase.quote = noquote
