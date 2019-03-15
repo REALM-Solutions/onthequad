@@ -2,7 +2,7 @@ import falcon
 from .EventEndPoints import EventEndPoints
 from .dummyusers import DumUsers
 from .UserEndPoints import UserEndPoints
-import requests
+
 
 ALLOWED_ORIGINS = ["http://localhost:8000"]
 
