@@ -1,9 +1,9 @@
 from __future__ import print_function
 from falcon import testing
 import pytest
-from onthequad.onthequad.UsersDB import database
+#from onthequad.onthequad.UsersDB import database
 from onthequad.onthequad.UsersDB import UsersDB
-from onthequad.onthequad.DataBaseSetUp import DataBaseSetUp
+#from onthequad.onthequad.DataBaseSetUp import DataBaseSetUp
 from mock import patch, Mock
 import mock
 
@@ -33,10 +33,10 @@ def test_getAllUsers(mockGet):
     mockGet().assert_called
 
 
-@patch('onthequad.onthequad.UsersDB.database.push')
-def test_createUser(mockPush, uId):
-    result = UsersDB.createUser(obj, uId)
-    assert mockPush()["name"] == result
+@patch('onthequad.onthequad.UsersDB.database.set')
+def test_createUser(mockPush):
+    result = UsersDB.createUser(obj, objId)
+    #assert mockPush()["name"] == result
 
 @patch('onthequad.onthequad.UsersDB.database.remove', return_value=None)
 def test_deleteEvent(mockDelete):
