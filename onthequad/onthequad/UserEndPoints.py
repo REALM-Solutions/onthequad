@@ -16,26 +16,48 @@ class UserEndPoints:
         data = json.loads(req.stream.read())
     
         if any(data):
-
-            user = authen.create_user_with_email_and_password(data['email'], data['password'])
-            uId = user['localId']
-            del data['password']
-            emailArray = data['email'].split("@")
+            email = data['email']
+            password = data['password']
+            firstname = data['firstName']
+            lastName = data['lastName']
+            photoUrl = data['photoUrl']
+            
+            emailArray = email.split("@")
             userName = emailArray[0]
-            data['userId'] = uId
-            data['userName'] = userName
-            send = {
-                'message' : 'Account is successfully created'
+            
+            user = authen.create_user_with_email_and_password(email, password)
+            uId = user['localId']
+            
+            aUser = {
+                "email": email,
+                "firstName": firstname,
+                "lastName": lastName,
+                "userName": userName,
+                "photoUrl": photoUrl,
+                "eventsAttending": [],
+                "eventsCreated": []
             }
 
-            UsersDB.createUser(data, uId)
-            resp.body = json.dumps(send)
+            UsersDB.createUser(aUser, uId)
+
+            sendBack = {
+                "message" : 'Account is successfully created',
+                "useId": uId,
+                "email": email,
+                "firstName": firstname,
+                "lastName": lastName,
+                "userName": userName,
+                "photoUrl": photoUrl,
+                "eventsAttending": [],
+                "eventsCreated": []
+            }
+            resp.body = json.dumps(sendBack)
             resp.status = falcon.HTTP_201
         else:
-            send = {
+            sendBack = {
                 'message' : 'Missing information. Try again'
             }
-            resp.body = json.dumps(send)
+            resp.body = json.dumps(sendBack)
             resp.status = falcon.HTTP_400
 
     def on_delete(self, req, resp):
