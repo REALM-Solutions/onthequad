@@ -6,7 +6,7 @@ from falcon_cors import CORS
 
 cors = CORS(allow_origins_list=['http://localhost:8080'],
             allow_all_headers=True,
-            allow_methods_list=True)
+            allow_all_methods=True)
 
 api = application = falcon.API(cors.middleware)
 
