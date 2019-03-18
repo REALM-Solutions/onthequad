@@ -7,10 +7,24 @@ authen = DataBaseSetUp.authentication()
 class UserEndPoints:
 
     def on_get(self, req, resp):
-        
-        send = UsersDB.getAllUsers()
-        resp.body = json.dumps(send)
-        resp.status = falcon.HTTP_200
+        data = json.loads(req.stream.read())
+        params = req.params
+        if 'id' in params:
+            send = {
+                params['id']:
+                UsersDB.getUserById(params['Id'])
+            }
+
+        elif 'email' in params:
+            send = {
+                params['email']:
+                UsersDB.getUserByEmail(params['email'])
+            }
+
+        else:
+            send = UsersDB.getAllUsers()
+            resp.body = json.dumps(send)
+            resp.status = falcon.HTTP_200
 
     def on_post(self, req, resp):
         data = json.loads(req.stream.read())
