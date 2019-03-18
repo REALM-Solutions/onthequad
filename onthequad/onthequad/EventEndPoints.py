@@ -20,28 +20,38 @@ class EventEndPoints:
             send = EventDatabase.getEventByName(params['name'])
         elif 'category' in params:
             send = EventDatabase.getEventByCategory(params['category'])
-        elif 'creator' in params:
-            send = EventDatabase.getEventByCreator(params['creator'])
+        elif 'creatorId' in params:
+            send = EventDatabase.getEventByCreator(params['creatorId'])
+        elif 'myevents' in params:
+            send = EventDatabase.getMyEvents(params['myevents'])
         else:
             send = EventDatabase.getTest()
             resp.body = json.dumps(send)
-        #     send = EventDatabase.getAllEvents()
         resp.body = json.dumps(send)
-        # resp.status = falcon.HTTP_200
+        resp.status = falcon.HTTP_200
 
 
     def on_post(self, req, resp):
         data = json.loads(req.stream.read())
-        # this logic can be removed since front end will input validation
         if any(data):
+            params = req.params
+            if 'userid' in params:
 
-            eventId = EventDatabase.storeEvent(data)
-            send = {
-                eventId : data
+                eventId = EventDatabase.storeEvent(data, params['userid'])
+                send = {
+                    eventId : data
 
-            }
-            resp.body = json.dumps(send)
-            resp.status = falcon.HTTP_201
+                }
+                resp.body = json.dumps(send)
+                resp.status = falcon.HTTP_201
+            elif 'attending' in params:
+                EventDatabase.updateAttending(params['attending'][0], params['attending'][1])
+            else:
+                send = {
+                    'Message': 'Need userId'
+                }
+                resp.body = json.dumps(send)
+                resp.status = falcon.HTTP_400
         else:
             send = {
                 'Message' : 'Cannot create empty event'
