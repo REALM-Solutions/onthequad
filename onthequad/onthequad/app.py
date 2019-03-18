@@ -2,18 +2,13 @@ import falcon
 from .EventEndPoints import EventEndPoints
 from .dummyusers import DumUsers
 from .UserEndPoints import UserEndPoints
+from falcon_cors import CORS
 
+cors = CORS(allow_origins_list=['http://localhost:8080'],
+            allow_all_headers=True,
+            allow_methods_list=True)
 
-ALLOWED_ORIGINS = ["http://localhost:8000"]
-
-class CorsMiddleware(object):
-
-    def process_request(self, request, response):
-        origin = request.get_header('Origin')
-        if origin in ALLOWED_ORIGINS:
-            response.set_header('Access-Control-Allow-Origin', origin)
-
-api = application = falcon.API(middleware=[CorsMiddleware()])
+api = application = falcon.API(cors.middleware)
 
 api.add_route('/events', EventEndPoints())
 api.add_route('/dummyusers', DumUsers())
