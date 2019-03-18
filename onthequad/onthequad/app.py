@@ -8,7 +8,7 @@ cors = CORS(allow_origins_list=['http://localhost:8080'],
             allow_all_headers=True,
             allow_all_methods=True)
 
-api = application = falcon.API(cors.middleware)
+api = application = falcon.API(middleware=[cors.middleware])
 
 api.add_route('/events', EventEndPoints())
 api.add_route('/dummyusers', DumUsers())
