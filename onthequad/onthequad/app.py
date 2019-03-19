@@ -7,4 +7,4 @@ api = application = falcon.API()
 
 api.add_route('/events', EventEndPoints())
 api.add_route('/dummyusers', DumUsers())
-api.add_route('/UserEndPoints', UserEndPoints())
+api.add_route('/users', UserEndPoints())

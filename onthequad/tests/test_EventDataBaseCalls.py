@@ -1,9 +1,9 @@
 from __future__ import print_function
 from falcon import testing
 import pytest
-from onthequad.onthequad.EventDataBase import database
+#from onthequad.onthequad.EventDataBase import database
 from onthequad.onthequad.EventDataBase import EventDatabase
-from onthequad.onthequad.DataBaseSetUp import DataBaseSetUp
+#from onthequad.onthequad.DataBaseSetUp import DataBaseSetUp
 from mock import patch, Mock
 import mock
 
