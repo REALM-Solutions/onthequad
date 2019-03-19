@@ -12,13 +12,7 @@ class UserEndPoints:
         if 'id' in params:
             send = {
                 params['id']:
-                UsersDB.getUserById(params['Id'])
-            }
-
-        elif 'email' in params:
-            send = {
-                params['email']:
-                UsersDB.getUserByEmail(params['email'])
+                UsersDB.getUserById(params['id'])
             }
 
         else:

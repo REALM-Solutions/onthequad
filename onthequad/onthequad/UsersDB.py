@@ -19,10 +19,8 @@ class UsersDB:
         database.child("Users").child(userId).remove()
 
     def getUserById(userId):
-        user = database.child(userId).get()
+        user = database.child('Users').child(userId).get()
         return user.val()
-
-    def getUserByEmail(email):
-        user = database.child(email).get()
-        return user.val()
+        
+    
         
