@@ -23,8 +23,8 @@ class UserEndPoints:
 
         else:
             send = UsersDB.getAllUsers()
-            resp.body = json.dumps(send)
-            resp.status = falcon.HTTP_200
+        resp.body = json.dumps(send)
+        resp.status = falcon.HTTP_200
 
     def on_post(self, req, resp):
         data = json.loads(req.stream.read())
