@@ -25,6 +25,7 @@ class UserEndPoints:
             emailArray = email.split("@")
             userName = emailArray[0]
             
+            #userObject = User(email, password, )
             user = authen.create_user_with_email_and_password(email, password)
             uId = user['localId']
             
