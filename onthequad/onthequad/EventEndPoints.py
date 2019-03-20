@@ -1,6 +1,7 @@
 import falcon
 import json
 from .EventDataBase import EventDatabase
+from .Event import Event
 
 
 class EventEndPoints:
@@ -36,8 +37,14 @@ class EventEndPoints:
         if any(data):
             params = req.params
             if 'userid' in params:
-                
-                eventId = EventDatabase.storeEvent(data, params['userid'])
+                try:
+                    eventData = Event(data['name'], data['location'], data['date'], data['startTime'], data['endTime'], data['category'], data['creator'], data['availableSpots'], data['coordinates'], data['public'])
+                except:
+                    send = {"msg": "invalid fields"}
+                    resp.body = json.dumps(send)
+                    resp.stats = falcon.HTTP_400
+                    return
+                eventId = EventDatabase.storeEvent(eventData, params['userid'])
                 send = {
                     eventId : data
 

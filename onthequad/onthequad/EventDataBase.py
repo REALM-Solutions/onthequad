@@ -7,8 +7,8 @@ database = DataBaseSetUp.setup()
 class EventDatabase:
 
 
-    def storeEvent(jsonObj, userId):
-        eid = database.child("Events").push(jsonObj)
+    def storeEvent(Obj, userId):
+        eid = database.child("Events").push(Obj.__dict__)
         database.child("Host").child(userId).child(eid['name']).set("")
         return eid['name']
 
