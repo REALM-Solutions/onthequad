@@ -1,5 +1,6 @@
 import falcon
 import json
+from User import User
 from .UsersDB import UsersDB
 from .DataBaseSetUp import DataBaseSetUp
 authen = DataBaseSetUp.authentication()
@@ -18,41 +19,46 @@ class UserEndPoints:
         if any(data):
             email = data['email']
             password = data['password']
-            firstname = data['firstName']
+            firstName = data['firstName']
             lastName = data['lastName']
             photoUrl = data['photoUrl']
             
+            #Create userName
             emailArray = email.split("@")
             userName = emailArray[0]
+            #Create list fo attending events
+            eventsAttending = []
+            #Create list of crated events
+            eventsCreated = []
             
-            #userObject = User(email, password, )
+            userObject = User(email, firstName, lastName, photoUrl, userName, eventsAttending, eventsCreated)
             user = authen.create_user_with_email_and_password(email, password)
             uId = user['localId']
             
-            aUser = {
-                "email": email,
-                "firstName": firstname,
-                "lastName": lastName,
-                "userName": userName,
-                "photoUrl": photoUrl,
-                "eventsAttending": [],
-                "eventsCreated": []
-            }
+            # aUser = {
+            #     "email": email,
+            #     "firstName": firstname,
+            #     "lastName": lastName,
+            #     "userName": userName,
+            #     "photoUrl": photoUrl,
+            #     "eventsAttending": [],
+            #     "eventsCreated": []
+            # }
 
-            UsersDB.createUser(aUser, uId)
+            UsersDB.createUser(userObject, uId)
 
-            sendBack = {
-                "message" : 'Account is successfully created',
-                "useId": uId,
-                "email": email,
-                "firstName": firstname,
-                "lastName": lastName,
-                "userName": userName,
-                "photoUrl": photoUrl,
-                "eventsAttending": [],
-                "eventsCreated": []
-            }
-            resp.body = json.dumps(sendBack)
+            # sendBack = {
+            #     "message" : 'Account is successfully created',
+            #     "useId": uId,
+            #     "email": email,
+            #     "firstName": firstname,
+            #     "lastName": lastName,
+            #     "userName": userName,
+            #     "photoUrl": photoUrl,
+            #     "eventsAttending": [],
+            #     "eventsCreated": []
+            # }
+            resp.body = json.dumps(userObject)
             resp.status = falcon.HTTP_201
         else:
             sendBack = {
