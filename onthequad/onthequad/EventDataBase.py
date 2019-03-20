@@ -9,12 +9,18 @@ class EventDatabase:
 
     def storeEvent(jsonObj, userId):
         eid = database.child("Events").push(jsonObj)
-        database.child("CreatedBy").child(userId).child(eid['name']).set("")
+        database.child("Host").child(userId).child(eid['name']).set("")
         return eid['name']
 
 
-    def updateAttending(userId, eventId):
+    def addAttending(userId, eventId):
         database.child("Attending").child(eventId).child(userId).set("")
+        database.child("MyEvents").child(userId).child(eventId).set("")
+
+
+    def removeAttending(userId, eventId):
+        database.child("Attending").child(eventId).child(userId).remove()
+        database.child("MyEvents").child(userId).child(eventId).remove()
 
 
     def getAllEvents():
@@ -46,14 +52,10 @@ class EventDatabase:
         return events
 
 
-    def getEventByCreator(creatorId):
-        events = database.child("CreatedBy").child(creatorId).shallow().get().val()
-        eventObj = {}
-        for eventId in events:
-            event = database.child("Events").child(eventId).get().val()
-            data = {eventId: json.dumps(event)}
-            eventObj.update(data)
-        print(eventObj)
+    def getEventByCreator(hostId):
+        eventIds = database.child("Host").child(hostId).shallow().get().val()
+        eventObj = EventDatabase.getEventObject(eventIds)
+        return eventObj
 
 
     def getFutureEvents():
@@ -62,11 +64,20 @@ class EventDatabase:
 
 
     def getMyEvents(userId):
-        events = database.child("Attending").order_by_key().order_by_child(userId).get().val()
-        print(events)
-
+        eventIds = database.child("MyEvents").child(userId).shallow().get().val()
+        eventObj = EventDatabase.getEventObject(eventIds)
+        return eventObj
 
     def getTest():
         event = database.child("Events").order_by_child("date").start_at(str(datetime.now())).get().val()
         print(event)
         # return event
+
+
+    def getEventObject(idList):
+        eventObj = {}
+        for eventId in idList:
+            event = database.child("Events").child(eventId).get().val()
+            data = {eventId: event}
+            eventObj.update(data)
+        return eventObj
