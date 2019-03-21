@@ -48,7 +48,7 @@ class EventEndPoints:
                     return
                 eventId = EventDatabase.storeEvent(eventData, params['userid'])
                 send = {
-                    eventId : data
+                    eventId : eventData.__dict__
 
                 }
                 resp.body = json.dumps(send)
