@@ -35,7 +35,15 @@ class EventDatabase:
 
     def deleteEvent(eventId):
         database.child("Events").child(eventId).remove()
-
+        userIds = database.child("Attending").child(eventId).shallow().get().val()
+        if userIds is not None:
+            for userId in userIds:
+                database.child("MyEvents").child(userId).child(eventId).remove()
+                database.child("Host").child(userId).child(eventId).remove()
+            database.child("Attending").child(eventId).remove()
+        hostIds = database.child("Host").shallow().get().val()
+        for hostId in hostIds:
+            database.child("Host").child(hostId).child(eventId).remove()
 
     def getEventById(eventId):
         event = database.child("Events").child(eventId).get().val()
@@ -68,10 +76,10 @@ class EventDatabase:
         eventObj = EventDatabase.getEventObject(eventIds)
         return eventObj
 
-    def getTest():
-        event = database.child("Events").order_by_child("date").start_at(str(datetime.now())).get().val()
+    def getTest(eventId):
+        event = database.child("Host").shallow().get().val()
+
         print(event)
-        # return event
 
 
     def getEventObject(idList):

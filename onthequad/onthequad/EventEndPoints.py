@@ -25,7 +25,8 @@ class EventEndPoints:
         elif 'myevents' in params:
             send = EventDatabase.getMyEvents(params['myevents'])
         else:
-            send = EventDatabase.getFutureEvents()
+            # send = EventDatabase.getFutureEvents()
+            send = EventDatabase.getTest("-LaSLgTAWSqB-DUQHoZA")
             resp.body = json.dumps(send)
         resp.body = json.dumps(send)
         resp.status = falcon.HTTP_200
@@ -54,8 +55,8 @@ class EventEndPoints:
                 send = {
                     'Message': 'Need userId'
                 }
-            resp.body = json.dumps(send)
-            resp.status = falcon.HTTP_400
+                resp.body = json.dumps(send)
+                resp.status = falcon.HTTP_400
         else:
             send = {
                 'Message' : 'Cannot create empty event'
@@ -65,13 +66,13 @@ class EventEndPoints:
 
     def on_delete(self, req, resp):
         data = json.loads(req.stream.read())
-
+        params = req.params
         if any(data):
             send = {
                 'Message' : "Event has been deleted"
             }
-            eventID = next(iter(data))
-            EventDatabase.deleteEvent(eventID)
+            # eventID = next(iter(data))
+            EventDatabase.deleteEvent(params['eventid'])
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_200
         else:
