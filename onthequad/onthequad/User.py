@@ -1,11 +1,11 @@
 class User:
-    def __init__(self, id, firstname, lastname, email, username, photoURL, events ):
+    def __init__(self, id, firstName, lastName, email, userName, photoUrl):
         self.id = id
-        self.firstname = firstname
-        self.lastname = lastname
+        self.firstName = firstName
+        self.lastName = lastName
         self.email = email
-        self.username = username
-        self.photoURL = photoURL
-        self.events = events
+        self.userName = userName
+        self.photoUrl = photoUrl
+        
         
         
