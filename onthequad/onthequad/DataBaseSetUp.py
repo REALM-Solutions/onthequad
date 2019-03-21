@@ -29,3 +29,4 @@ class DataBaseSetUp:
     def noquote(s):
         return s
     pyrebase.pyrebase.quote = noquote
+
