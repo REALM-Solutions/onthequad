@@ -17,4 +17,10 @@ class UsersDB:
 
     def deleteUser(userId):
         database.child("Users").child(userId).remove()
+
+    def getUserById(userId):
+        user = database.child('Users').child(userId).get()
+        return user.val()
+        
+    
         
