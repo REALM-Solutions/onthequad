@@ -1,6 +1,6 @@
 import falcon
 import json
-from User import User
+from .User import User
 from .UsersDB import UsersDB
 from .DataBaseSetUp import DataBaseSetUp
 authen = DataBaseSetUp.authentication()
@@ -17,52 +17,44 @@ class UserEndPoints:
         data = json.loads(req.stream.read())
     
         if any(data):
-            email = data['email']
-            password = data['password']
-            firstName = data['firstName']
-            lastName = data['lastName']
-            photoUrl = data['photoUrl']
-            
+
+            try:
+
+                email = data['email']
+                password = data['password']
+                firstName = data['firstName']
+                lastName = data['lastName']
+                photoUrl = data['photoUrl']
+
+            except:
+                send = {"msg": "missing fields"}
+                resp.body = json.dumps(send)
+                resp.status = falcon.HTTP_400
+                return
+
             #Create userName
             emailArray = email.split("@")
             userName = emailArray[0]
-            #Create list fo attending events
-            eventsAttending = []
-            #Create list of crated events
-            eventsCreated = []
             
-            userObject = User(email, firstName, lastName, photoUrl, userName, eventsAttending, eventsCreated)
+            #Create user authentication
             user = authen.create_user_with_email_and_password(email, password)
             uId = user['localId']
-            
-            # aUser = {
-            #     "email": email,
-            #     "firstName": firstname,
-            #     "lastName": lastName,
-            #     "userName": userName,
-            #     "photoUrl": photoUrl,
-            #     "eventsAttending": [],
-            #     "eventsCreated": []
-            # }
 
-            UsersDB.createUser(userObject, uId)
+            #Put user info into Database
+            userObject = User(uId, firstName, lastName, email, userName, photoUrl)
+            aUser = UsersDB.createUser(userObject, uId)
 
-            # sendBack = {
-            #     "message" : 'Account is successfully created',
-            #     "useId": uId,
-            #     "email": email,
-            #     "firstName": firstname,
-            #     "lastName": lastName,
-            #     "userName": userName,
-            #     "photoUrl": photoUrl,
-            #     "eventsAttending": [],
-            #     "eventsCreated": []
-            # }
-            resp.body = json.dumps(userObject)
+            sendBack = {
+                
+                    aUser : userObject.__dict__
+            }
+
+            resp.body = json.dumps(sendBack)
             resp.status = falcon.HTTP_201
+
         else:
             sendBack = {
-                'message' : 'Missing information. Try again'
+                'message' : 'Cannot create an empty user.'
             }
             resp.body = json.dumps(sendBack)
             resp.status = falcon.HTTP_400
