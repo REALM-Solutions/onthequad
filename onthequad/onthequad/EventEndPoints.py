@@ -38,11 +38,13 @@ class EventEndPoints:
             params = req.params
             if 'userid' in params:
                 try:
-                    eventData = Event(data['name'], data['location'], data['date'], data['startTime'], data['endTime'], data['category'], data['creator'], data['availableSpots'], data['coordinates'], data['public'])
+                    eventData = Event(data['name'], data['location'], data['date'], data['startTime'], data['endTime'],
+                                      data['category'], data['creator'], data['availableSpots'], data['description'],
+                                      data['coordinates'], data['public'])
                 except:
                     send = {"msg": "invalid fields"}
                     resp.body = json.dumps(send)
-                    resp.stats = falcon.HTTP_400
+                    resp.status = falcon.HTTP_400
                     return
                 eventId = EventDatabase.storeEvent(eventData, params['userid'])
                 send = {
@@ -61,8 +63,8 @@ class EventEndPoints:
                 send = {
                     'Message': 'Need userId'
                 }
-            resp.body = json.dumps(send)
-            resp.status = falcon.HTTP_400
+                resp.body = json.dumps(send)
+                resp.status = falcon.HTTP_400
         else:
             send = {
                 'Message' : 'Cannot create empty event'
