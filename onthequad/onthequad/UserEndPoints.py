@@ -8,7 +8,6 @@ authen = DataBaseSetUp.authentication()
 class UserEndPoints:
 
     def on_get(self, req, resp):
-        data = json.loads(req.stream.read())
         params = req.params
         if 'id' in params:
             send = {
