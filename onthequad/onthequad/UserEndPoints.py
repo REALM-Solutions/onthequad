@@ -99,9 +99,3 @@ class UserEndPoints:
             }
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_200
-
-
-
-
-
-
