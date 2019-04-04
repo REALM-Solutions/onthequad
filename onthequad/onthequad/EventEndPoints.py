@@ -26,8 +26,8 @@ class EventEndPoints:
         elif 'myevents' in params:
             send = EventDatabase.getMyEvents(params['myevents'])
         else:
-            # send = EventDatabase.getFutureEvents()
-            send = EventDatabase.getTest("-LaSLgTAWSqB-DUQHoZA")
+            send = EventDatabase.getFutureEvents()
+            # send = EventDatabase.getTest("-LaSLgTAWSqB-DUQHoZA")
             resp.body = json.dumps(send)
         resp.body = json.dumps(send)
         resp.status = falcon.HTTP_200
@@ -39,9 +39,17 @@ class EventEndPoints:
             params = req.params
             if 'userid' in params:
                 try:
-                    eventData = Event(data['name'], data['location'], data['date'], data['startTime'], data['endTime'],
-                                      data['category'], data['creator'], data['availableSpots'], data['description'],
-                                      data['coordinates'], data['public'])
+                    eventData = Event(data['name'],
+                                      data['location'],
+                                      data['date'],
+                                      data['startTime'],
+                                      data['endTime'],
+                                      data['category'],
+                                      data['creator'],
+                                      data['availableSpots'],
+                                      data['description'],
+                                      data['coordinates'],
+                                      data['public'])e
                 except:
                     send = {"msg": "invalid fields"}
                     resp.body = json.dumps(send)
