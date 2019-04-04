@@ -7,9 +7,6 @@ class EventEndPoints:
 
 
     def on_get(self, req, resp):
-        # data = json.loads(req.stream.read())
-        #
-        # print(req.params)
         send = EventDatabase.getAllEvents()
         resp.body = json.dumps(send)
         resp.status = falcon.HTTP_200
