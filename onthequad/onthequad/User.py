@@ -6,6 +6,3 @@ class User:
         self.email = email
         self.userName = userName
         self.photoUrl = photoUrl
-        
-        
-        
