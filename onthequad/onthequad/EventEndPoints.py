@@ -49,7 +49,7 @@ class EventEndPoints:
                                       data['availableSpots'],
                                       data['description'],
                                       data['coordinates'],
-                                      data['public'])e
+                                      data['public'])
                 except:
                     send = {"msg": "invalid fields"}
                     resp.body = json.dumps(send)
