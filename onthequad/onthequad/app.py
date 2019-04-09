@@ -2,7 +2,7 @@ import falcon
 from .EventEndPoints import EventEndPoints
 from .dummyusers import DumUsers
 from .UserEndPoints import UserEndPoints
-from .SignInEndPoints import SignInEndPoints
+from .UserSignInEndPoints import UserSignInEndPoints
 from falcon_cors import CORS
 
 cors = CORS(allow_all_origins=['http://localhost:3000'],
@@ -14,4 +14,4 @@ api = application = falcon.API(middleware=[cors.middleware])
 api.add_route('/events', EventEndPoints())
 api.add_route('/dummyusers', DumUsers())
 api.add_route('/users', UserEndPoints())
-api.add_route('/signin', SignInEndPoints())
+api.add_route('/signin', UserSignInEndPoints())
