@@ -19,3 +19,4 @@ rsa==4.0
 six==1.12.0
 waitress==1.2.1
 gunicorn
+heroku/python
