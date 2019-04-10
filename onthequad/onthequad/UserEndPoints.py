@@ -3,6 +3,7 @@ import json
 from .User import User
 from .UsersDB import UsersDB
 from .DataBaseSetUp import DataBaseSetUp
+from .UserHelper import UserHelper
 authen = DataBaseSetUp.authentication()
 
 class UserEndPoints:
@@ -26,12 +27,8 @@ class UserEndPoints:
         if any(data):
 
             try:
-
                 email = data['email']
-                #Create userName
-                emailArray = email.split("@")
-                userName = emailArray[0]
-
+                userName = UserHelper.createUserName(email)
                 password = data['password']
                 firstName = data['firstName']
                 lastName = data['lastName']
