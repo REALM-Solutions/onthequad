@@ -8,15 +8,13 @@ class EventEndPoints:
 
 
     def on_get(self, req, resp):
-        # data = json.loads(req.stream.read())
+
         params = req.params
-        # print(params)
         if 'id' in params:
             send = {
                 params['id']:
                 EventDatabase.getEventById(params['id'])
             }
-            # resp.body = json.dumps(send)
         elif 'name' in params:
             send = EventDatabase.getEventByName(params['name'])
         elif 'category' in params:
@@ -27,7 +25,6 @@ class EventEndPoints:
             send = EventDatabase.getMyEvents(params['myevents'])
         else:
             send = EventDatabase.getFutureEvents()
-            # send = EventDatabase.getTest("-LaSLgTAWSqB-DUQHoZA")
             resp.body = json.dumps(send)
         resp.body = json.dumps(send)
         resp.status = falcon.HTTP_200
