@@ -1,1 +1,1 @@
-web: gunicorn onthequad.wsgi
+web: gunicorn --reload look.app
