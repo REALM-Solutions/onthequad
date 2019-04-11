@@ -47,7 +47,7 @@ class UserEndPoints:
             uId = user['localId']
 
             #Put user info into Database
-            userObject = User(uId, firstName, lastName, email, userName, photoUrl)
+            userObject = User(firstName, lastName, email, userName, photoUrl)
             aUser = UsersDB.createUser(userObject, uId)
 
             sendBack = {
