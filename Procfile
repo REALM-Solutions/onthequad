@@ -1,1 +1,1 @@
-web: gunicorn --reload look.app
+web: gunicorn --reload onthequad.app
