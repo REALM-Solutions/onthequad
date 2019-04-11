@@ -8,7 +8,6 @@ authen = DataBaseSetUp.authentication()
 class UserEndPoints:
 
     def on_get(self, req, resp):
-        data = json.loads(req.stream.read())
         params = req.params
         if 'id' in params:
             send = {
@@ -23,11 +22,10 @@ class UserEndPoints:
 
     def on_post(self, req, resp):
         data = json.loads(req.stream.read())
-    
+
         if any(data):
 
             try:
-
                 email = data['email']
                 password = data['password']
                 firstName = data['firstName']
@@ -43,17 +41,17 @@ class UserEndPoints:
             #Create userName
             emailArray = email.split("@")
             userName = emailArray[0]
-            
+
             #Create user authentication
             user = authen.create_user_with_email_and_password(email, password)
             uId = user['localId']
 
             #Put user info into Database
-            userObject = User(uId, firstName, lastName, email, userName, photoUrl)
+            userObject = User(firstName, lastName, email, userName, photoUrl)
             aUser = UsersDB.createUser(userObject, uId)
 
             sendBack = {
-                
+
                     aUser : userObject.__dict__
             }
 
@@ -100,9 +98,3 @@ class UserEndPoints:
             }
             resp.body = json.dumps(send)
             resp.status = falcon.HTTP_200
-
-            
-        
-
-    
-

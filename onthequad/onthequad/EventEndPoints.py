@@ -2,21 +2,35 @@ import falcon
 import json
 from .EventDataBase import EventDatabase
 from .Event import Event
+from onthequad.util.stringUtil import preProcess
 
 
 class EventEndPoints:
 
 
     def on_get(self, req, resp):
-        # data = json.loads(req.stream.read())
+
         params = req.params
-        # print(params)
-        if 'id' in params:
+        if req.get_param("q"):
+            keywords = req.get_param("q").split(" ")
+            result = set()
+            for keyword in keywords:
+                """
+                Strip punctuation from string and convert into lower case.
+                otherwise 'Do' and 'do' will be 2 different keywords.
+                """
+                keyword = preProcess(keyword)
+                """use set intersection to return the list of values that match all the keywords"""
+                result = result.intersection(#EventDataBase call goes here)
+
+        resp.body = json.dumps(list(result))
+        resp.status = falcon.HTTP_200
+
+        elif 'id' in params:
             send = {
                 params['id']:
                 EventDatabase.getEventById(params['id'])
             }
-            # resp.body = json.dumps(send)
         elif 'name' in params:
             send = EventDatabase.getEventByName(params['name'])
         elif 'category' in params:
@@ -26,8 +40,7 @@ class EventEndPoints:
         elif 'myevents' in params:
             send = EventDatabase.getMyEvents(params['myevents'])
         else:
-            # send = EventDatabase.getFutureEvents()
-            send = EventDatabase.getTest("-LaSLgTAWSqB-DUQHoZA")
+            send = EventDatabase.getFutureEvents()
             resp.body = json.dumps(send)
         resp.body = json.dumps(send)
         resp.status = falcon.HTTP_200
@@ -39,9 +52,17 @@ class EventEndPoints:
             params = req.params
             if 'userid' in params:
                 try:
-                    eventData = Event(data['name'], data['location'], data['date'], data['startTime'], data['endTime'],
-                                      data['category'], data['creator'], data['availableSpots'], data['description'],
-                                      data['coordinates'], data['public'])
+                    eventData = Event(data['name'],
+                                      data['location'],
+                                      data['date'],
+                                      data['startTime'],
+                                      data['endTime'],
+                                      data['category'],
+                                      data['creator'],
+                                      data['availableSpots'],
+                                      data['description'],
+                                      data['coordinates'],
+                                      data['public'])
                 except:
                     send = {"msg": "invalid fields"}
                     resp.body = json.dumps(send)
