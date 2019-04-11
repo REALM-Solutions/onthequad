@@ -2,46 +2,13 @@ import falcon
 import json
 from .EventDataBase import EventDatabase
 from .Event import Event
-from onthequad.util.stringUtil import preProcess
 
 
 class EventEndPoints:
 
 
     def on_get(self, req, resp):
-
-        params = req.params
-        if req.get_param("q"):
-            keywords = req.get_param("q").split(" ")
-            result = set()
-            for keyword in keywords:
-                """
-                Strip punctuation from string and convert into lower case.
-                otherwise 'Do' and 'do' will be 2 different keywords.
-                """
-                keyword = preProcess(keyword)
-                """use set intersection to return the list of values that match all the keywords"""
-                result = result.intersection(#EventDataBase call goes here)
-
-        resp.body = json.dumps(list(result))
-        resp.status = falcon.HTTP_200
-
-        elif 'id' in params:
-            send = {
-                params['id']:
-                EventDatabase.getEventById(params['id'])
-            }
-        elif 'name' in params:
-            send = EventDatabase.getEventByName(params['name'])
-        elif 'category' in params:
-            send = EventDatabase.getEventByCategory(params['category'])
-        elif 'host' in params:
-            send = EventDatabase.getEventByCreator(params['host'])
-        elif 'myevents' in params:
-            send = EventDatabase.getMyEvents(params['myevents'])
-        else:
-            send = EventDatabase.getFutureEvents()
-            resp.body = json.dumps(send)
+        send = EventDatabase.getAllEvents()
         resp.body = json.dumps(send)
         resp.status = falcon.HTTP_200
 

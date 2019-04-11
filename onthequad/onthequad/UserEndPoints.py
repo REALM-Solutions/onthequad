@@ -3,6 +3,7 @@ import json
 from .User import User
 from .UsersDB import UsersDB
 from .DataBaseSetUp import DataBaseSetUp
+from .UserHelper import UserHelper
 authen = DataBaseSetUp.authentication()
 
 class UserEndPoints:
@@ -27,36 +28,35 @@ class UserEndPoints:
 
             try:
                 email = data['email']
+                userName = UserHelper.createUserName(email)
                 password = data['password']
                 firstName = data['firstName']
                 lastName = data['lastName']
                 photoUrl = data['photoUrl']
+
+                try:
+                    #Create user authentication
+                    user = authen.create_user_with_email_and_password(email, password)
+                    uId = user['localId']
+                    #Put user info into Database
+                    userObject = User(firstName, lastName, email, userName, photoUrl)
+                    aUser = UsersDB.createUser(userObject, uId)
+                    sendBack = {
+                        aUser : userObject.__dict__
+                    }
+                    resp.body = json.dumps(sendBack)
+                    resp.status = falcon.HTTP_200
+                except:
+                    send = {"message": "EMAIL_EXISTS"}
+                    resp.body = json.dumps(send)
+                    resp.status = falcon.HTTP_400
+                    return
 
             except:
                 send = {"msg": "missing fields"}
                 resp.body = json.dumps(send)
                 resp.status = falcon.HTTP_400
                 return
-
-            #Create userName
-            emailArray = email.split("@")
-            userName = emailArray[0]
-
-            #Create user authentication
-            user = authen.create_user_with_email_and_password(email, password)
-            uId = user['localId']
-
-            #Put user info into Database
-            userObject = User(firstName, lastName, email, userName, photoUrl)
-            aUser = UsersDB.createUser(userObject, uId)
-
-            sendBack = {
-
-                    aUser : userObject.__dict__
-            }
-
-            resp.body = json.dumps(sendBack)
-            resp.status = falcon.HTTP_201
 
         else:
             sendBack = {
