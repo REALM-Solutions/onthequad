@@ -1,6 +1,5 @@
 import falcon
 from .EventEndPoints import EventEndPoints
-from .dummyusers import DumUsers
 from .UserEndPoints import UserEndPoints
 from .UserSignInEndPoints import UserSignInEndPoints
 from falcon_cors import CORS
