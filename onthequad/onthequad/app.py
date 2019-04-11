@@ -12,6 +12,5 @@ cors = CORS(allow_all_origins=['http://localhost:3000'],
 api = application = falcon.API(middleware=[cors.middleware])
 
 api.add_route('/events', EventEndPoints())
-api.add_route('/dummyusers', DumUsers())
 api.add_route('/users', UserEndPoints())
 api.add_route('/signin', UserSignInEndPoints())
